@@ -1,0 +1,97 @@
+&1 !com.mike.moneyman.domain.Pipeline
+id: 1
+name: Sample pipeline
+description: This is tutorial pipeline
+endTime: 2018-06-09T19:48:18.974
+startTime: 2018-06-09T19:47:08.999
+status: IN PROGRESS
+tasks: !org.hibernate.collection.internal.PersistentBag
+- &2 !com.mike.moneyman.domain.Task
+   id: 1
+   name: Build
+   action: print
+   description: Build sources
+   endTime: 2018-06-09T19:47:32.681
+   pipeline: *1
+   startTime: 2018-06-09T19:47:31.862
+   status: COMPLETED
+   transition: !org.hibernate.collection.internal.PersistentBag
+   - !com.mike.moneyman.domain.Transition
+      id: 1
+      task: *2
+      transition: Test
+- &3 !com.mike.moneyman.domain.Task
+   id: 2
+   name: Test
+   action: random
+   description: Test compiled code
+   endTime: 2018-06-09T19:47:41.775
+   pipeline: *1
+   startTime: 2018-06-09T19:47:40.883
+   status: COMPLETED
+   transition: !org.hibernate.collection.internal.PersistentBag
+   - !com.mike.moneyman.domain.Transition
+      id: 2
+      task: *3
+      transition: Docs
+   - !com.mike.moneyman.domain.Transition
+      id: 3
+      task: *3
+      transition: Integration Test
+- *3
+- &4 !com.mike.moneyman.domain.Task
+   id: 3
+   name: Integration Test
+   action: random
+   description: Integration Testing
+   endTime: 2018-06-09T19:47:52.328
+   pipeline: *1
+   startTime: 2018-06-09T19:47:51.663
+   status: SKIPPED
+   transition: !org.hibernate.collection.internal.PersistentBag
+   - !com.mike.moneyman.domain.Transition
+      id: 4
+      task: *4
+      transition: Publish
+- &5 !com.mike.moneyman.domain.Task
+   id: 4
+   name: Publish
+   action: random
+   description: Publish artifacts
+   endTime: 2018-06-09T19:48:16.917
+   pipeline: *1
+   startTime: 2018-06-09T19:48:16.916
+   status: SKIPPED
+   transition: !org.hibernate.collection.internal.PersistentBag
+   - !com.mike.moneyman.domain.Transition
+      id: 5
+      task: *5
+      transition: Sync
+- &6 !com.mike.moneyman.domain.Task
+   id: 5
+   name: Docs
+   action: print
+   description: Generate docs
+   endTime: 2018-06-09T19:48:18.083
+   pipeline: *1
+   startTime: 2018-06-09T19:48:18.075
+   status: COMPLETED
+   transition: !org.hibernate.collection.internal.PersistentBag
+   - !com.mike.moneyman.domain.Transition
+      id: 6
+      task: *6
+      transition: Sync
+- &7 !com.mike.moneyman.domain.Task
+   id: 6
+   name: Sync
+   action: print
+   description: Wait for completion
+   endTime: 2018-06-09T19:48:18.971
+   pipeline: *1
+   startTime: 2018-06-09T19:48:18.963
+   status: COMPLETED
+   transition: !org.hibernate.collection.internal.PersistentBag
+   - !com.mike.moneyman.domain.Transition
+      id: 7
+      task: *7
+      transition: NONE
