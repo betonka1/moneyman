@@ -4,11 +4,10 @@ import com.esotericsoftware.yamlbeans.YamlReader;
 import com.esotericsoftware.yamlbeans.YamlWriter;
 import com.mike.moneyman.domain.Pipeline;
 import com.mike.moneyman.yaml.YamlBean;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 
 public class YamlUtils {
@@ -19,10 +18,9 @@ public class YamlUtils {
         return reader.read(YamlBean.class);
     }
 
-
     public static YamlBean write(Pipeline pipeline) throws IOException {
-
-        YamlWriter writer = new YamlWriter(new FileWriter("/Users/mishakonopelko/Desktop/MoneyMan/src/main/resources/static/output.yaml"));
+        File file = ResourceUtils.getFile("classpath:public/output.yaml");// this file is in target/classes/WEB-INF/public/output.yaml
+        YamlWriter writer = new YamlWriter(new FileWriter(file));
         //writer.getConfig().setClassTag("contact", Contact.class);
         writer.write(pipeline);
         writer.close();
